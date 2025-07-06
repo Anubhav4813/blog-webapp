@@ -31,9 +31,9 @@ public class WebSpringSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN", "GUEST")
+                .requestMatchers("/resources/**").permitAll()
+                .requestMatchers("/register/**").permitAll()
+                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "GUEST")
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
