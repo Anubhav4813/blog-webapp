@@ -37,23 +37,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-  
+      
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_11E872B7756243FDBB9BC2A74A0184FE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_015F1E3BF10848B5890918616899DBB0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B80DA02E32FC4D128309603575C58D6A }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -61,4 +51,4 @@ jobs:
           app-name: 'SkyScript'
           slot-name: 'Production'
           package: '*.jar'
-          
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_451849EB0F564881871A2924D7D365E4 }}
